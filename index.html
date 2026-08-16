@@ -1,41 +1,87 @@
 <!doctype html>
 <html lang="zh-Hant" data-game="pg-worddawn">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#141712" />
-  <meta name="description" content="六次機會猜出五字母單字。每日題全球一致，也可切換無限練習。" />
-  <title>破曉五字</title>
-  <link rel="stylesheet" href="./styles.css" />
-</head>
-<body>
-  <div class="ambience" aria-hidden="true"><i></i><i></i><i></i></div>
-  <main>
-    <header class="topbar">
-      <div><p class="eyebrow">DAILY WORD / ENDLESS</p><h1>破曉五字</h1></div>
-      <button id="sound" class="quiet" type="button" aria-pressed="false">音樂：關</button>
-    </header>
-    <section id="lobby" class="lobby panel">
-      <div class="seal" aria-hidden="true">▦</div>
-      <p>六次機會猜出五字母單字。每日題全球一致，也可切換無限練習。</p>
-      <div class="record"><span>場域最佳</span><strong id="best">0</strong></div>
-      <button id="start" class="primary" type="button">開始遊戲</button>
-    </section>
-    <section id="game" hidden>
-      <div id="hud" class="hud" aria-label="遊戲狀態"></div>
-      <section class="stage panel">
-        <div id="board" class="board" aria-label="遊戲場景"></div>
-        <div class="progress" aria-hidden="true"><i id="progress"></i></div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#141712" />
+    <meta
+      name="description"
+      content="晨間一字：六次機會猜出五字母英文單字。每日題全球同題，無盡模式衝連勝。螢幕鍵盤與實體鍵盤都能玩。"
+    />
+    <title>晨間一字</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main>
+      <header class="topbar">
+        <div class="brand">
+          <p class="eyebrow">WORD DAWN</p>
+          <h1>晨間一字</h1>
+        </div>
+        <div class="topbar-actions">
+          <button id="sfx" class="chip" type="button" aria-pressed="true" aria-label="音效">
+            🔊<span class="chip-text">音效</span>
+          </button>
+          <button id="music" class="chip" type="button" aria-pressed="false" aria-label="音樂">
+            🎵<span class="chip-text">音樂</span>
+          </button>
+          <button id="help" class="chip" type="button" aria-label="玩法說明">
+            ?<span class="chip-text">玩法</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="modes" role="group" aria-label="模式">
+        <button id="mode-daily" class="mode is-active" type="button" data-mode="daily" aria-pressed="true">
+          每日
+        </button>
+        <button id="mode-endless" class="mode" type="button" data-mode="endless" aria-pressed="false">
+          無盡
+        </button>
+      </div>
+
+      <section class="stats" aria-label="戰績">
+        <div><span>題號</span><strong id="stat-puzzle">—</strong></div>
+        <div><span>連勝</span><strong id="stat-streak">0</strong></div>
+        <div><span>最佳連勝</span><strong id="stat-best">0</strong></div>
+        <div><span>最高分</span><strong id="stat-score">0</strong></div>
       </section>
-      <p id="message" class="message" role="status" aria-live="polite"></p>
-      <section id="details" class="details panel"></section>
-      <div id="actions" class="actions"></div>
-    </section>
-    <footer><button id="help" class="text-button" type="button">玩法</button><a href="./ATTRIBUTION.md">素材署名</a></footer>
-  </main>
-  <section id="sheet" class="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheet-title">
-    <div class="sheet-card"><p class="eyebrow">DAILY WORD / ENDLESS</p><h2 id="sheet-title">玩法</h2><div id="sheet-body"></div><button id="sheet-close" class="primary" type="button">知道了</button></div>
-  </section>
-  <script type="module" src="./app.js"></script>
-</body>
+
+      <section class="board-wrap">
+        <div id="board" class="board" role="grid" aria-label="猜測面板"></div>
+      </section>
+
+      <p id="toast" class="toast" role="status" aria-live="polite"></p>
+
+      <section id="result" class="result" hidden>
+        <p class="result-head" id="result-head"></p>
+        <p class="result-answer">答案 <strong id="result-answer">—</strong></p>
+        <pre id="result-share" class="result-share" aria-label="成績方塊"></pre>
+        <div class="result-actions">
+          <button id="btn-next" class="primary" type="button">下一局</button>
+          <button id="btn-copy" class="ghost" type="button">複製成績</button>
+        </div>
+      </section>
+
+      <div id="keyboard" class="keyboard" role="group" aria-label="螢幕鍵盤"></div>
+
+      <details id="rules" class="rules">
+        <summary>怎麼玩</summary>
+        <ul>
+          <li>六次機會猜出一個五字母英文單字。</li>
+          <li><b class="swatch correct">綠</b>＝字母與位置都對；<b class="swatch present">黃</b>＝字母有但位置不對；<b class="swatch absent">灰</b>＝答案裡沒有。</li>
+          <li>只接受詞庫裡的英文單字；亂打五個字母會被退回，而且不算次數。</li>
+          <li>螢幕鍵盤或實體鍵盤都可以打字：<kbd>Enter</kbd> 送出、<kbd>Backspace</kbd> 刪除。</li>
+          <li><b>每日</b>模式全世界同一題，由日期決定；<b>無盡</b>模式隨機出題，連贏可以累積連勝加成。</li>
+        </ul>
+      </details>
+
+      <footer>
+        <span>純前端 · Playgrounds SAM</span>
+        <a href="./ATTRIBUTION.md">素材署名</a>
+      </footer>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
 </html>
