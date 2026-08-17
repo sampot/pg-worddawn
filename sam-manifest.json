@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "rev": "85220db",
+  "files": [
+    "app.js",
+    "assets/audio/click.ogg",
+    "assets/audio/coin.ogg",
+    "assets/audio/hit.ogg",
+    "assets/audio/music.ogg",
+    "assets/audio/ok.ogg",
+    "assets/audio/soft.ogg",
+    "assets/click.ogg",
+    "assets/game-icons-license.txt",
+    "assets/images/btn.png",
+    "assets/images/hero.png",
+    "assets/images/rival.png",
+    "assets/licenses/blippy-bits.txt",
+    "assets/licenses/kenney-toon.txt",
+    "assets/music-license.txt",
+    "assets/star.png",
+    "assets/theme.ogg",
+    "assets/ui-audio-license.txt",
+    "assets/win.ogg",
+    "audio.js",
+    "functions.js",
+    "game.js",
+    "index.html",
+    "persist.js",
+    "styles.css",
+    "words.js"
+  ]
+}
